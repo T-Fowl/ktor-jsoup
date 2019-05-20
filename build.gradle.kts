@@ -25,6 +25,7 @@ dependencies {
     
     with(Libraries.ktor) {
         compile(client)
+        testCompile(clientMockJvm)
     }
 
     compile(Libraries.jsoup)

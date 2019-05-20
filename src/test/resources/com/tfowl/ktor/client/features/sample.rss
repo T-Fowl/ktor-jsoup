@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xml:base="http://example.org/rss" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:media="http://search.yahoo.com/mrss/">
+    <channel>
+        <title>Sample RSS</title>
+        <description>Sample RSS</description>
+        <link>http://exmaple.org/rss</link>
+        <language>en-us</language>
+        <item>
+            <title>Sample Item</title>
+            <link>http://example.org/sample-item-1</link>
+            <description>Sample Item</description>
+            <pubDate>Fri, 17 May 2019 10:22 EDT</pubDate>
+        </item>
+    </channel>
+</rss>

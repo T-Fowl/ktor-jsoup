@@ -2,13 +2,13 @@ package com.tfowl.ktor.client.features
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.HttpClientFeature
-import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.HttpResponseContainer
 import io.ktor.client.response.HttpResponsePipeline
-import io.ktor.client.response.readText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.util.AttributeKey
+import kotlinx.coroutines.io.ByteReadChannel
+import kotlinx.coroutines.io.readRemaining
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 import kotlin.reflect.full.isSuperclassOf
@@ -28,8 +28,8 @@ class JsoupFeature(val parsers: Map<ContentType, Parser>) {
                 JsoupFeature(Config().apply(block).parsers)
 
         override fun install(feature: JsoupFeature, scope: HttpClient) {
-            scope.responsePipeline.intercept(HttpResponsePipeline.Transform) { (info, response) ->
-                if (response !is HttpResponse)
+            scope.responsePipeline.intercept(HttpResponsePipeline.Transform) { (info, body) ->
+                if (body !is ByteReadChannel)
                     return@intercept
                 if (!info.type.isSuperclassOf(Document::class))
                     return@intercept
@@ -40,7 +40,7 @@ class JsoupFeature(val parsers: Map<ContentType, Parser>) {
 
                 val parser = feature.parsers.getValue(matchingType)
 
-                proceedWith(HttpResponseContainer(info, parser.parseInput(response.readText(), "${context.request.url}")))
+                proceedWith(HttpResponseContainer(info, parser.parseInput(body.readRemaining().readText(), "${context.request.url}")))
             }
         }
     }
