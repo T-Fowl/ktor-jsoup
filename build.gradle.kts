@@ -24,8 +24,10 @@ dependencies {
     compile(Libraries.kotlin.stdlibJdk8)
     
     with(Libraries.ktor) {
-        compile(clientCore)
+        compile(client)
     }
+
+    compile(Libraries.jsoup)
 
     testCompile(Libraries.junit)
     testCompile(Libraries.mockk)
