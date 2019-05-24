@@ -1,5 +1,7 @@
 # Ktor: Jsoup
 
+[![Build Status](https://travis-ci.com/T-Fowl/ktor-jsoup.svg?token=XRxnkxchYhqjAF1pWTMx&branch=master)](https://travis-ci.com/T-Fowl/ktor-jsoup)
+
 The Jsoup feature allows you to handle xml and html content in your ktor application easily using the [Jsoup](https://jsoup.org/) library.
 
 This feature provides a [HttpClientFeature](https://ktor.io/clients/http-client/features.html) similar to that of the built-in [JsonFeature](https://ktor.io/clients/http-client/features/json-feature.html).
