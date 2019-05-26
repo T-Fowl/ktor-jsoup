@@ -7,13 +7,13 @@ import io.ktor.client.engine.mock.respond
 import io.ktor.client.request.get
 import io.ktor.http.*
 import io.ktor.util.InternalAPI
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.io.jvm.javaio.toByteReadChannel
 import kotlinx.coroutines.runBlocking
 import kotlinx.io.core.ExperimentalIoApi
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.InputStream
 
