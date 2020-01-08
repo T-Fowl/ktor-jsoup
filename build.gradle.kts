@@ -87,8 +87,3 @@ publishJar {
         }
     }
 }
-
-tasks.withType<Wrapper>().all {
-    gradleVersion = "5.4.1"
-    distributionType = Wrapper.DistributionType.ALL
-}
