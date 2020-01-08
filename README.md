@@ -41,12 +41,20 @@ Add a gradle dependency to your project:
 
 Groovy
 ```groovy
-compile 'com.tfowl.ktor:ktor-jsoup:1.1.0'
+repositories {
+    maven {
+        url "https://dl.bintray.com/t-fowl/ktor/"
+    }
+}
+implementation 'com.tfowl.ktor:ktor-jsoup:1.0.0'
 ```
 
 Kotlin DSL
 ```kotlin
-compile("com.tfowl.ktor:ktor-jsoup:1.1.0")
+repositories {
+    maven(url = "https://dl.bintray.com/t-fowl/ktor/")
+}
+implementation("com.tfowl.ktor:ktor-jsoup:1.0.0")
 ```
 
 ## License
