@@ -12,7 +12,6 @@ import kotlinx.coroutines.io.ByteReadChannel
 import kotlinx.coroutines.io.readRemaining
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
-import kotlin.reflect.full.isSuperclassOf
 
 /**
  * [HttpClient] feature that deserialises response bodies into Jsoup's [Document]
@@ -58,7 +57,8 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
             scope.responsePipeline.intercept(HttpResponsePipeline.Transform) { (info, body) ->
                 if (body !is ByteReadChannel)
                     return@intercept
-                if (!info.type.isSuperclassOf(Document::class))
+
+                if (!info.type.java.isAssignableFrom(Document::class.java))
                     return@intercept
 
                 val matchingType = feature.parsers.keys.firstOrNull {
