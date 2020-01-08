@@ -46,7 +46,7 @@ repositories {
         url "https://dl.bintray.com/t-fowl/ktor/"
     }
 }
-compile 'com.tfowl.ktor:ktor-jsoup:1.0.0'
+implementation 'com.tfowl.ktor:ktor-jsoup:1.0.0'
 ```
 
 Kotlin DSL
@@ -54,7 +54,7 @@ Kotlin DSL
 repositories {
     maven(url = "https://dl.bintray.com/t-fowl/ktor/")
 }
-compile("com.tfowl.ktor:ktor-jsoup:1.0.0")
+implementation("com.tfowl.ktor:ktor-jsoup:1.0.0")
 ```
 
 ## License
