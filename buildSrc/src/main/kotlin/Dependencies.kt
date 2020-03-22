@@ -1,5 +1,5 @@
 object Versions {
-    const val kotlin = "1.3.61"
+    const val kotlin = "1.3.70"
     const val dokka = "0.9.18"
     const val bintray = "1.8.4"
     const val kosogor = "1.0.4"
@@ -9,7 +9,7 @@ object Versions {
 object Libraries {
     const val junit = "junit:junit:4.12"
     const val mockk = "io.mockk:mockk:1.9.3"
-    const val jsoup = "org.jsoup:jsoup:1.12.1"
+    const val jsoup = "org.jsoup:jsoup:1.13.1"
 
     val ktor = Ktor
     val kotlin = Kotlin
@@ -19,7 +19,7 @@ object Libraries {
     }
 
     object Ktor {
-        const val version = "1.2.5"
+        const val version = "1.3.2"
         private const val prefix = "io.ktor:ktor"
 
         const val client = "$prefix-client:$version"

@@ -3,13 +3,13 @@ package com.tfowl.ktor.client.features
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.features.HttpClientFeature
-import io.ktor.client.response.HttpResponseContainer
-import io.ktor.client.response.HttpResponsePipeline
+import io.ktor.client.statement.HttpResponseContainer
+import io.ktor.client.statement.HttpResponsePipeline
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.util.AttributeKey
-import kotlinx.coroutines.io.ByteReadChannel
-import kotlinx.coroutines.io.readRemaining
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.readRemaining
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 
@@ -67,7 +67,8 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
 
                 val parser = feature.parsers.getValue(matchingType)
 
-                proceedWith(HttpResponseContainer(info, parser.parseInput(body.readRemaining().readText(), "${context.request.url}")))
+                val parsedBody = parser.parseInput(body.readRemaining().readText(), "${context.request.url}")
+                proceedWith(HttpResponseContainer(info, parsedBody))
             }
         }
     }

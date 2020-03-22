@@ -6,10 +6,9 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.request.get
 import io.ktor.http.*
-import io.ktor.util.InternalAPI
-import kotlinx.coroutines.io.jvm.javaio.toByteReadChannel
+import io.ktor.util.KtorExperimentalAPI
+import io.ktor.util.cio.toByteReadChannel
 import kotlinx.coroutines.runBlocking
-import kotlinx.io.core.ExperimentalIoApi
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 import org.junit.Assert.assertEquals
@@ -18,8 +17,7 @@ import org.junit.Test
 import java.io.InputStream
 
 
-@ExperimentalIoApi
-@InternalAPI
+@KtorExperimentalAPI
 class JsoupFeatureTests {
 
     private data class Resource(val file: String, val contentType: ContentType)
