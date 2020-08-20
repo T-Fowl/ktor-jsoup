@@ -5,6 +5,5 @@ object Repositories {
     object Kotlin {
         const val kotlinx = "https://dl.bintray.com/kotlin/kotlinx"
         const val ktor = "https://dl.bintray.com/kotlin/ktor"
-        const val exposed = "https://dl.bintray.com/kotlin/exposed"
     }
 }
