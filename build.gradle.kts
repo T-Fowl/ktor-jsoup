@@ -54,6 +54,7 @@ tasks.withType<DokkaTask>().all {
     configuration {
         externalDocumentationLink {
             url = URL("https://jsoup.org/apidocs/")
+            packageListUrl = projectDir.resolve("src/main/dokka/org.jsoup.package-list").toURI().toURL()
         }
 
         externalDocumentationLink {
