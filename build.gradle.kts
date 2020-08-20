@@ -28,8 +28,6 @@ repositories {
 }
 
 dependencies {
-    api(Libraries.kotlin.stdlibJdk8)
-
     with(Libraries.ktor) {
         api(client)
         testImplementation(clientMockJvm)
@@ -38,11 +36,9 @@ dependencies {
     api(Libraries.jsoup)
 
     testImplementation(Libraries.junit)
-    testImplementation(Libraries.mockk)
 }
 
 tasks.withType<Test>().all {
-    jvmArgs = listOf("-XX:MaxPermSize=256m")
     testLogging {
         events.addAll(listOf(
                 TestLogEvent.PASSED,
