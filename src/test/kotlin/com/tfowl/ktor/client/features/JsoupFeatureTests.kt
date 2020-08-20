@@ -89,6 +89,7 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
+            @Suppress("UNUSED_VARIABLE")
             val document = client.get<Document>("https://example.org/rss")
         }
     }

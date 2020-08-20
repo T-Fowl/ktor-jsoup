@@ -1,5 +1,5 @@
 object Versions {
-    const val kotlin = "1.3.70"
+    const val kotlin = "1.4.0"
     const val dokka = "0.9.18"
     const val bintray = "1.8.4"
     const val kosogor = "1.0.4"
@@ -19,7 +19,7 @@ object Libraries {
     }
 
     object Ktor {
-        const val version = "1.3.2"
+        const val version = "1.4.0"
         private const val prefix = "io.ktor:ktor"
 
         const val client = "$prefix-client:$version"
