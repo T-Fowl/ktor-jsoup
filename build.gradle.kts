@@ -28,8 +28,6 @@ repositories {
 }
 
 dependencies {
-    api(Libraries.kotlin.stdlibJdk8)
-
     with(Libraries.ktor) {
         api(client)
         testImplementation(clientMockJvm)
@@ -37,18 +35,13 @@ dependencies {
 
     api(Libraries.jsoup)
 
-    testImplementation(Libraries.junit)
-    testImplementation(Libraries.mockk)
+    testImplementation(Libraries.junit.jupiter)
 }
 
 tasks.withType<Test>().all {
-    jvmArgs = listOf("-XX:MaxPermSize=256m")
+    useJUnitPlatform()
     testLogging {
-        events.addAll(listOf(
-                TestLogEvent.PASSED,
-                TestLogEvent.FAILED,
-                TestLogEvent.SKIPPED
-        ))
+        events(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
         showStandardStreams = true
         exceptionFormat = TestExceptionFormat.FULL
     }
@@ -58,12 +51,15 @@ tasks.withType<DokkaTask>().all {
     outputFormat = "html"
     outputDirectory = "$buildDir/javadoc"
 
-    externalDocumentationLink {
-        url = URL("https://jsoup.org/apidocs/")
-    }
+    configuration {
+        externalDocumentationLink {
+            url = URL("https://jsoup.org/apidocs/")
+            packageListUrl = URL("https://jsoup.org/apidocs/element-list")
+        }
 
-    externalDocumentationLink {
-        url = URL("https://api.ktor.io/${Libraries.ktor.version}/")
+        externalDocumentationLink {
+            url = URL("https://api.ktor.io/${Libraries.ktor.version}/")
+        }
     }
 }
 
