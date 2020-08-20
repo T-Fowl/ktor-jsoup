@@ -1,8 +1,7 @@
 object Versions {
     const val kotlin = "1.4.0"
-    const val dokka = "0.9.18"
-    const val bintray = "1.8.4"
-    const val kosogor = "1.0.4"
+    const val dokka = "0.10.1"
+    const val kosogor = "1.0.10"
 }
 
 @Suppress("ALL")
