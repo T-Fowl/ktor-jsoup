@@ -6,10 +6,10 @@ object Versions {
 
 @Suppress("ALL")
 object Libraries {
-    const val junit = "junit:junit:4.12"
     const val jsoup = "org.jsoup:jsoup:1.13.1"
 
     val ktor = Ktor
+    val junit = JUnit
 
     object Ktor {
         const val version = "1.4.0"
@@ -17,5 +17,12 @@ object Libraries {
 
         const val client = "$prefix-client:$version"
         const val clientMockJvm = "$prefix-client-mock-jvm:$version"
+    }
+
+    object JUnit {
+        private const val version = "5.6.2"
+        private const val prefix = "org.junit.jupiter:junit"
+
+        const val jupiter = "$prefix-jupiter:$version"
     }
 }

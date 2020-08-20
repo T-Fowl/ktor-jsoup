@@ -35,16 +35,13 @@ dependencies {
 
     api(Libraries.jsoup)
 
-    testImplementation(Libraries.junit)
+    testImplementation(Libraries.junit.jupiter)
 }
 
 tasks.withType<Test>().all {
+    useJUnitPlatform()
     testLogging {
-        events.addAll(listOf(
-                TestLogEvent.PASSED,
-                TestLogEvent.FAILED,
-                TestLogEvent.SKIPPED
-        ))
+        events(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
         showStandardStreams = true
         exceptionFormat = TestExceptionFormat.FULL
     }
@@ -54,12 +51,14 @@ tasks.withType<DokkaTask>().all {
     outputFormat = "html"
     outputDirectory = "$buildDir/javadoc"
 
-    externalDocumentationLink {
-        url = URL("https://jsoup.org/apidocs/")
-    }
+    configuration {
+        externalDocumentationLink {
+            url = URL("https://jsoup.org/apidocs/")
+        }
 
-    externalDocumentationLink {
-        url = URL("https://api.ktor.io/${Libraries.ktor.version}/")
+        externalDocumentationLink {
+            url = URL("https://api.ktor.io/${Libraries.ktor.version}/")
+        }
     }
 }
 

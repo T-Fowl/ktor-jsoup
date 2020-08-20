@@ -11,9 +11,10 @@ import io.ktor.util.cio.toByteReadChannel
 import kotlinx.coroutines.runBlocking
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.InputStream
 
 
@@ -82,15 +83,17 @@ class JsoupFeatureTests {
         }
     }
 
-    @Test(expected = NoTransformationFoundException::class)
+    @Test
+    @Suppress("UNUSED_VARIABLE")
     fun `feature should not parse unregistered content types`() {
         val client = mockClient.config {
             install(JsoupFeature)
         }
 
-        runBlocking {
-            @Suppress("UNUSED_VARIABLE")
-            val document = client.get<Document>("https://example.org/rss")
+        assertThrows<NoTransformationFoundException> {
+            runBlocking {
+                val document = client.get<Document>("https://example.org/rss")
+            }
         }
     }
 
