@@ -1,16 +1,12 @@
-name: Build
+name: Publish
 
-on: [ push, pull_request ]
+on:
+  release:
+    types: [ created ]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        java-version:
-          - 1.8
 
     steps:
       - name: Checkout
@@ -31,5 +27,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
-      - name: Test
-        run: ./gradlew build
+      - name: Upload Artifacts
+        run: |
+          ./gradlew clean bintrayUpload
+        env:
+          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+          BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
