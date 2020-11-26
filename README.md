@@ -1,6 +1,6 @@
 # Ktor: Jsoup
 
-[![Build Status](https://travis-ci.com/T-Fowl/ktor-jsoup.svg?token=XRxnkxchYhqjAF1pWTMx&branch=master)](https://travis-ci.com/T-Fowl/ktor-jsoup)
+![Build](https://github.com/T-Fowl/ktor-jsoup/workflows/Build/badge.svg)
 [![Download](https://api.bintray.com/packages/t-fowl/ktor/ktor-jsoup/images/download.svg)](https://bintray.com/t-fowl/ktor/ktor-jsoup/_latestVersion)
 
 The Jsoup feature allows you to handle xml and html content in your ktor application easily using the [Jsoup](https://jsoup.org/) library.
