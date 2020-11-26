@@ -1,5 +1,5 @@
 object Versions {
-    const val kotlin = "1.4.0"
+    const val kotlin = "1.4.10"
     const val dokka = "0.10.1"
     const val kosogor = "1.0.10"
 }
@@ -12,7 +12,7 @@ object Libraries {
     val junit = JUnit
 
     object Ktor {
-        const val version = "1.4.0"
+        const val version = "1.4.1"
         private const val prefix = "io.ktor:ktor"
 
         const val client = "$prefix-client:$version"
@@ -20,7 +20,7 @@ object Libraries {
     }
 
     object JUnit {
-        private const val version = "5.6.2"
+        private const val version = "5.7.0"
         private const val prefix = "org.junit.jupiter:junit"
 
         const val jupiter = "$prefix-jupiter:$version"
