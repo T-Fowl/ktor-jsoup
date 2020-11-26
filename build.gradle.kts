@@ -34,7 +34,6 @@ dependencies {
     }
 
     api(Libraries.jsoup)
-
     testImplementation(Libraries.junit.jupiter)
 }
 
