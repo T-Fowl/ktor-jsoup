@@ -1,4 +1,4 @@
-name: "Test ktor-jsoup"
+name: Build
 
 on: [push]
 
