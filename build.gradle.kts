@@ -28,13 +28,11 @@ repositories {
 }
 
 dependencies {
-    with(Libraries.ktor) {
-        api(client)
-        testImplementation(clientMockJvm)
-    }
+    api("io.ktor:ktor-client:1.4.1")
+    testImplementation("io.ktor:ktor-client-mock-jvm:1.4.1")
 
-    api(Libraries.jsoup)
-    testImplementation(Libraries.junit.jupiter)
+    api("org.jsoup:jsoup:1.13.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
 }
 
 tasks.withType<Test>().all {
