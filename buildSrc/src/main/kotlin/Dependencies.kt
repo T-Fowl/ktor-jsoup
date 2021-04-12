@@ -1,6 +1,5 @@
 object Versions {
     const val kotlin = "1.4.10"
-    const val dokka = "0.10.1"
     const val kosogor = "1.0.10"
 }
 

@@ -1,13 +1,10 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.dokka.gradle.*
 import tanvd.kosogor.proxy.publishJar
-import java.net.URL
 
 plugins {
     kotlin("jvm") version Versions.kotlin
-    id("org.jetbrains.dokka") version Versions.dokka
     id("tanvd.kosogor") version Versions.kosogor
 }
 
@@ -41,21 +38,21 @@ tasks.withType<Test>().all {
     }
 }
 
-tasks.withType<DokkaTask>().all {
-    outputFormat = "html"
-    outputDirectory = "$buildDir/javadoc"
-
-    configuration {
-        externalDocumentationLink {
-            url = URL("https://jsoup.org/apidocs/")
-            packageListUrl = URL("https://jsoup.org/apidocs/element-list")
-        }
-
-        externalDocumentationLink {
-            url = URL("https://api.ktor.io/${Libraries.ktor.version}/")
-        }
-    }
-}
+//tasks.withType<DokkaTask>().all {
+//    outputFormat = "html"
+//    outputDirectory = "$buildDir/javadoc"
+//
+//    configuration {
+//        externalDocumentationLink {
+//            url = URL("https://jsoup.org/apidocs/")
+//            packageListUrl = URL("https://jsoup.org/apidocs/element-list")
+//        }
+//
+//        externalDocumentationLink {
+//            url = URL("https://api.ktor.io/${Libraries.ktor.version}/")
+//        }
+//    }
+//}
 
 
 publishJar {
