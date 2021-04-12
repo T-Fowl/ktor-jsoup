@@ -4,8 +4,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import tanvd.kosogor.proxy.publishJar
 
 plugins {
-    kotlin("jvm") version Versions.kotlin
-    id("tanvd.kosogor") version Versions.kosogor
+    kotlin("jvm") version "1.4.10"
+    id("tanvd.kosogor") version "1.0.10"
 }
 
 java {
