@@ -20,11 +20,8 @@ tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
 repositories {
-    jcenter()
     mavenCentral()
-    maven(url = Repositories.Kotlin.kotlinx)
 }
 
 dependencies {
