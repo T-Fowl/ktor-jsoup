@@ -18,7 +18,8 @@ jobs:
       - name: Configure JDK
         uses: actions/setup-java@v2
         with:
-          java-version: 1.8
+          distribution: 'zulu'
+          java-version: 8
 
       - name: Cache Gradle Packages
         uses: actions/cache@v2
