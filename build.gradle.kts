@@ -2,19 +2,26 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import tanvd.kosogor.proxy.publishJar
+import java.net.URI
 import java.net.URL
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.4.10"
     id("org.jetbrains.dokka") version "1.4.30"
-    id("tanvd.kosogor") version "1.0.10"
+    `maven-publish`
+    signing
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
+
+//tasks.withType<org.gradle.jvm.tasks.Jar>().configureEach {
+//    manifest {
+//        attributes
+//    }
+//}
 
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "1.8"
@@ -66,22 +73,64 @@ tasks.withType<DokkaTask>().configureEach {
     }
 }
 
-publishJar {
+tasks.create<Jar>("sourcesJar") {
+    from(sourceSets["main"].allSource)
+    archiveClassifier.set("sources")
+}
 
-    publication {
-        artifactId = "ktor-jsoup"
-    }
+tasks.create<Jar>("javadocJar") {
+    from(tasks.dokkaJavadoc.get().outputs)
+    archiveClassifier.set("javadoc")
+}
 
-    bintray {
-        username = System.getenv("BINTRAY_USER")
-        secretKey = System.getenv("BINTRAY_KEY")
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
 
-        repository = "ktor"
+            from(components["java"])
+            artifact(tasks.named("sourcesJar"))
+            artifact(tasks.named("javadocJar"))
 
-        info {
-            githubRepo = "https://github.com/T-Fowl/ktor-jsoup.git"
-            vcsUrl = "https://github.com/T-Fowl/ktor-jsoup.git"
-            license = "MIT"
+            pom {
+                name.set(project.name)
+                description.set("")
+                url.set("")
+
+                licenses {
+                    license {
+                        name.set("")
+                        url.set("")
+                    }
+                }
+                developers {
+                    developer {
+                        name.set("Thomas Fowler")
+                    }
+                }
+                scm {
+                    url.set("")
+                    connection.set("")
+                    developerConnection.set("")
+                }
+            }
         }
     }
+
+    repositories {
+        maven {
+            name = "mavencentral"
+            url = URI.create("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("SONATYPE_NEXUS_USERNAME")
+                password = System.getenv("SONATYPE_NEXUS_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["maven"])
 }
