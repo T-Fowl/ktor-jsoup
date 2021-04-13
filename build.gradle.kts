@@ -1,10 +1,13 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import tanvd.kosogor.proxy.publishJar
+import java.net.URL
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.4.10"
+    id("org.jetbrains.dokka") version "1.4.30"
     id("tanvd.kosogor") version "1.0.10"
 }
 
@@ -19,9 +22,16 @@ tasks.withType<KotlinCompile>().all {
 
 repositories {
     mavenCentral()
+    jcenter() // Required for dokka
 }
 
 dependencies {
+    /*
+        TODO: Use gradle catalog when dependabot supports it:
+         https://github.com/dependabot/dependabot-core/issues/3471
+         https://github.com/dependabot/dependabot-core/issues/3121
+     */
+
     api("io.ktor:ktor-client:1.4.1")
     testImplementation("io.ktor:ktor-client-mock-jvm:1.4.1")
 
@@ -38,22 +48,23 @@ tasks.withType<Test>().all {
     }
 }
 
-//tasks.withType<DokkaTask>().all {
-//    outputFormat = "html"
-//    outputDirectory = "$buildDir/javadoc"
-//
-//    configuration {
-//        externalDocumentationLink {
-//            url = URL("https://jsoup.org/apidocs/")
-//            packageListUrl = URL("https://jsoup.org/apidocs/element-list")
-//        }
-//
-//        externalDocumentationLink {
-//            url = URL("https://api.ktor.io/${Libraries.ktor.version}/")
-//        }
-//    }
-//}
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets.configureEach {
+        externalDocumentationLink {
+            url.set(URL("https://jsoup.org/apidocs/"))
+            packageListUrl.set(URL("https://jsoup.org/apidocs/element-list"))
+        }
 
+        externalDocumentationLink {
+            /* TODO: Use gradle catalog when dependabot adds support
+                     https://github.com/dependabot/dependabot-core/issues/3471
+                     https://github.com/dependabot/dependabot-core/issues/3121
+            */
+            val ktorVersion = configurations.api.get().dependencies.first { "io.ktor" == it.group }.version
+            url.set(URL("https://api.ktor.io/$ktorVersion/"))
+        }
+    }
+}
 
 publishJar {
 
