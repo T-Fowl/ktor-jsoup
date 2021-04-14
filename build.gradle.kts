@@ -17,12 +17,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-//tasks.withType<org.gradle.jvm.tasks.Jar>().configureEach {
-//    manifest {
-//        attributes
-//    }
-//}
-
 tasks.withType<KotlinCompile>().all {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -73,12 +67,12 @@ tasks.withType<DokkaTask>().configureEach {
     }
 }
 
-tasks.create<Jar>("sourcesJar") {
+val sourcesJar = tasks.register<Jar>("sourcesJar") {
     from(sourceSets["main"].allSource)
     archiveClassifier.set("sources")
 }
 
-tasks.create<Jar>("javadocJar") {
+val javadocJar = tasks.register<Jar>("javadocJar") {
     from(tasks.dokkaJavadoc.get().outputs)
     archiveClassifier.set("javadoc")
 }
@@ -91,29 +85,32 @@ publishing {
             version = project.version.toString()
 
             from(components["java"])
-            artifact(tasks.named("sourcesJar"))
-            artifact(tasks.named("javadocJar"))
+            artifact(sourcesJar)
+            artifact(javadocJar)
 
             pom {
                 name.set(project.name)
-                description.set("")
-                url.set("")
+                description.set("Ktor client feature for un-marshalling into Jsoup's Document class")
+                url.set("https://github.com/T-Fowl/ktor-jsoup")
 
                 licenses {
                     license {
-                        name.set("")
-                        url.set("")
+                        name.set("The MIT License (MIT)")
+                        url.set("https://opensource.org/licenses/MIT")
                     }
                 }
                 developers {
                     developer {
+                        id.set("T-Fowl")
                         name.set("Thomas Fowler")
+                        email.set("thomasjamesfowler97@gmail.com")
+                        url.set("https://github.com/T-Fowl")
                     }
                 }
                 scm {
-                    url.set("")
-                    connection.set("")
-                    developerConnection.set("")
+                    url.set("https://github.com/T-Fowl/ktor-jsoup.git")
+                    connection.set("scm:git:https://github.com/T-Fowl/ktor-jsoup.git")
+                    developerConnection.set("scm:git:https://github.com/T-Fowl/ktor-jsoup.git")
                 }
             }
         }
