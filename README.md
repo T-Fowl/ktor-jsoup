@@ -42,9 +42,7 @@ Add a gradle dependency to your project:
 Groovy
 ```groovy
 repositories {
-    maven {
-        url "https://dl.bintray.com/t-fowl/ktor/"
-    }
+    mavenCentral()
 }
 implementation "com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion"
 ```
@@ -52,9 +50,18 @@ implementation "com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion"
 Kotlin DSL
 ```kotlin
 repositories {
-    maven(url = "https://dl.bintray.com/t-fowl/ktor/")
+    mavenCentral()
 }
 implementation("com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion")
+```
+
+Add a maven dependency to your project:
+```xml
+<dependency>
+  <groupId>com.tfowl.ktor</groupId>
+  <artifactId>ktor-jsoup</artifactId>
+  <version>${ktorJsoupVersion}</version>
+</dependency>
 ```
 
 ## License
