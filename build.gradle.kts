@@ -12,6 +12,10 @@ plugins {
     signing
 }
 
+group = "com.tfowl.ktor"
+version = "1.4.1"
+description = "Ktor client feature for un-marshalling into Jsoup's Document class"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -90,7 +94,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                description.set("Ktor client feature for un-marshalling into Jsoup's Document class")
+                description.set(project.description)
                 url.set("https://github.com/T-Fowl/ktor-jsoup")
 
                 licenses {
