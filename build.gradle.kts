@@ -32,7 +32,7 @@ dependencies {
          https://github.com/dependabot/dependabot-core/issues/3121
      */
 
-    api("io.ktor:ktor-client:1.4.1")
+    api("io.ktor:ktor-client:1.5.4")
     testImplementation("io.ktor:ktor-client-mock-jvm:1.4.1")
 
     api("org.jsoup:jsoup:1.13.1")
