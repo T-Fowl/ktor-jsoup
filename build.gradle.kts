@@ -71,6 +71,12 @@ tasks.withType<DokkaTask>().configureEach {
     }
 }
 
+tasks.withType<Jar>().configureEach {
+    manifest {
+        attributes("Automatic-Module-Name" to project.name)
+    }
+}
+
 val sourcesJar = tasks.register<Jar>("sourcesJar") {
     from(sourceSets["main"].allSource)
     archiveClassifier.set("sources")
