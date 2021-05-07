@@ -4,3 +4,5 @@ pluginManagement {
         jcenter() // Required for dokka
     }
 }
+
+include(":example")

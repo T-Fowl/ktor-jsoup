@@ -31,6 +31,7 @@ repositories {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
     /*
         TODO: Use gradle catalog when dependabot supports it:
          https://github.com/dependabot/dependabot-core/issues/3471
