@@ -6,7 +6,7 @@ import java.net.URI
 import java.net.URL
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.10"
+    id("org.jetbrains.kotlin.jvm") version "1.4.32"
     id("org.jetbrains.dokka") version "1.4.30"
     `maven-publish`
     signing
