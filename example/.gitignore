@@ -1,0 +1,13 @@
+.idea
+*.iml
+.gradle
+*.iws
+/build/
+/out/
+/buildSrc/.gradle
+/buildSrc/build
+/buildSrc/out
+!gradle-wrapper.jar
+
+
+

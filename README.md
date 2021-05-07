@@ -1,7 +1,8 @@
 # Ktor: Jsoup
 
 ![Build](https://github.com/T-Fowl/ktor-jsoup/workflows/Build/badge.svg)
-[![Download](https://api.bintray.com/packages/t-fowl/ktor/ktor-jsoup/images/download.svg)](https://bintray.com/t-fowl/ktor/ktor-jsoup/_latestVersion)
+![Maven Central](https://img.shields.io/maven-central/v/com.tfowl.ktor/ktor-jsoup)
+![GitHub](https://img.shields.io/github/license/T-Fowl/ktor-jsoup)
 
 The Jsoup feature allows you to handle xml and html content in your ktor application easily using the [Jsoup](https://jsoup.org/) library.
 
@@ -42,9 +43,7 @@ Add a gradle dependency to your project:
 Groovy
 ```groovy
 repositories {
-    maven {
-        url "https://dl.bintray.com/t-fowl/ktor/"
-    }
+    mavenCentral()
 }
 implementation "com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion"
 ```
@@ -52,9 +51,18 @@ implementation "com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion"
 Kotlin DSL
 ```kotlin
 repositories {
-    maven(url = "https://dl.bintray.com/t-fowl/ktor/")
+    mavenCentral()
 }
 implementation("com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion")
+```
+
+Add a maven dependency to your project:
+```xml
+<dependency>
+  <groupId>com.tfowl.ktor</groupId>
+  <artifactId>ktor-jsoup</artifactId>
+  <version>${ktorJsoupVersion}</version>
+</dependency>
 ```
 
 ## License
