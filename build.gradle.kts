@@ -42,7 +42,7 @@ dependencies {
     testImplementation("io.ktor:ktor-client-mock:1.5.4")
 
     api("org.jsoup:jsoup:1.13.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 }
 
 tasks.withType<Test>().all {

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tfowl.ktor.client.features
 
 import io.ktor.client.HttpClient
@@ -77,6 +79,7 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
 /**
  * Install [JsoupFeature]
  */
+@Suppress("FunctionName")
 fun HttpClientConfig<*>.Jsoup(block: JsoupFeature.Config.() -> Unit) {
     install(JsoupFeature, block)
 }
