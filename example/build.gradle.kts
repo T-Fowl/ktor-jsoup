@@ -6,6 +6,10 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType<KotlinCompile>().all {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
