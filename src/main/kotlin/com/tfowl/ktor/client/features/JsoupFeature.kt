@@ -43,7 +43,9 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
          */
         var parsers = mutableMapOf(
                 ContentType.Text.Html to Parser.htmlParser(),
-                ContentType.Text.Xml to Parser.xmlParser())
+                ContentType.Text.Xml to Parser.xmlParser(),
+                ContentType.Application.Xml to Parser.xmlParser()
+        )
     }
 
     /**
