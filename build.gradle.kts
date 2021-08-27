@@ -27,7 +27,6 @@ tasks.withType<KotlinCompile>().all {
 
 repositories {
     mavenCentral()
-    jcenter() // Required for dokka
 }
 
 dependencies {
