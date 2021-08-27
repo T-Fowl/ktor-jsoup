@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "com.tfowl.ktor"
-version = "1.5.4"
+version = "1.6.3"
 description = "Ktor client feature for un-marshalling into Jsoup's Document class"
 
 java {
