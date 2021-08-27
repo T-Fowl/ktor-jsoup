@@ -34,9 +34,10 @@ class JsoupFeatureTests {
         engine {
             addHandler { request ->
                 val resources = mapOf(
-                        "https://example.org/html" to Resource("sample.html", ContentType.Text.Html),
-                        "https://example.org/xml" to Resource("sample.xml", ContentType.Text.Xml),
-                        "https://example.org/rss" to Resource("sample.rss", ContentType.Application.Rss)
+                        "https://example.org/text/html" to Resource("sample.html", ContentType.Text.Html),
+                        "https://example.org/text/xml" to Resource("sample.xml", ContentType.Text.Xml),
+                        "https://example.org/application/xml" to Resource("sample.xml", ContentType.Application.Xml),
+                        "https://example.org/application/rss" to Resource("sample.rss", ContentType.Application.Rss)
                 )
 
                 val resource = resources[request.url.fullUrl] ?: error("Unhandled ${request.url.fullUrl}")
@@ -54,7 +55,7 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
-            val document = client.get<Document>("https://example.org/html")
+            val document = client.get<Document>("https://example.org/text/html")
             assertEquals("Sample Document", document.body().text())
         }
     }
@@ -66,19 +67,22 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
-            val document = client.get<Document>("https://example.org/xml")
-            assertEquals("Sample Document", document.text())
+            val textDocument = client.get<Document>("https://example.org/text/xml")
+            assertEquals("Sample Document", textDocument.text())
+
+            val applicationDocument = client.get<Document>("https://example.org/application/xml")
+            assertEquals("Sample Document", applicationDocument.text())
         }
     }
 
     @Test
-    fun `feature should not parse for non-document responses`() {
+    fun `feature should not parse for non-document types`() {
         val client = mockClient.config {
             install(JsoupFeature)
         }
 
         runBlocking {
-            val document = client.get<String>("https://example.org/html")
+            val document = client.get<String>("https://example.org/text/html")
             assertTrue(document.contains("html"))
         }
     }
@@ -92,7 +96,7 @@ class JsoupFeatureTests {
 
         assertThrows<NoTransformationFoundException> {
             runBlocking {
-                val document = client.get<Document>("https://example.org/rss")
+                val document = client.get<Document>("https://example.org/application/rss")
             }
         }
     }
@@ -106,7 +110,7 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
-            val document = client.get<Document>("https://example.org/rss")
+            val document = client.get<Document>("https://example.org/application/rss")
             assertEquals("Sample RSS", document.select("rss>channel>title").text())
         }
     }
