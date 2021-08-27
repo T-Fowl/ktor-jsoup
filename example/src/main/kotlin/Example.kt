@@ -15,8 +15,8 @@ suspend fun main() {
         val feed = client.get<Document>("https://xkcd.com/rss.xml")
 
         feed.select("rss>channel>item").forEach { item ->
-            val title = item.selectFirst("title").text()
-            val link = item.selectFirst("link").text()
+            val title = item.selectFirst("title")?.text()
+            val link = item.selectFirst("link")?.text()
 
             println("$title ($link)")
         }
