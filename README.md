@@ -36,6 +36,15 @@ HttpClient(engine) {
 }
 ```
 
+## Versions
+
+Compatible / Recommended version pairings between `ktor` and `ktor-jsoup`
+
+| ktor     | ktor-jsoup |
+| -------- | ---------- |
+| `1.5.4+` | `1.5.4`    |
+| `1.6.3+` | `1.6.3`    |
+
 ## Download
 
 Add a gradle dependency to your project:
@@ -46,6 +55,7 @@ repositories {
     mavenCentral()
 }
 implementation "com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion"
+// Recommend overriding ktor & jsoup versions 
 ```
 
 Kotlin DSL
@@ -54,6 +64,7 @@ repositories {
     mavenCentral()
 }
 implementation("com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion")
+// Recommend overriding ktor & jsoup versions
 ```
 
 Add a maven dependency to your project:
@@ -63,6 +74,7 @@ Add a maven dependency to your project:
   <artifactId>ktor-jsoup</artifactId>
   <version>${ktorJsoupVersion}</version>
 </dependency>
+<!-- Recommend overriding ktor & jsoup versions here -->
 ```
 
 ## License
