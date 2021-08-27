@@ -6,7 +6,7 @@ import java.net.URI
 import java.net.URL
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.4.32"
+    id("org.jetbrains.kotlin.jvm") version "1.5.20"
     id("org.jetbrains.dokka") version "1.5.0"
     `maven-publish`
     signing
@@ -37,8 +37,8 @@ dependencies {
          https://github.com/dependabot/dependabot-core/issues/3121
      */
 
-    api("io.ktor:ktor-client:1.5.4")
-    testImplementation("io.ktor:ktor-client-mock:1.5.4")
+    api("io.ktor:ktor-client:1.6.3")
+    testImplementation("io.ktor:ktor-client-mock:1.6.3")
 
     api("org.jsoup:jsoup:1.13.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
