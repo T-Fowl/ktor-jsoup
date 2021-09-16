@@ -94,6 +94,6 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
  * Install [JsoupFeature]
  */
 @Suppress("FunctionName")
-fun HttpClientConfig<*>.Jsoup(block: JsoupFeature.Config.() -> Unit) {
+fun HttpClientConfig<*>.Jsoup(block: JsoupFeature.Config.() -> Unit = {}) {
     install(JsoupFeature, block)
 }
