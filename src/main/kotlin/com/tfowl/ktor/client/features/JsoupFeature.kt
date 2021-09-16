@@ -65,11 +65,9 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
                 if (!info.type.java.isAssignableFrom(Document::class.java))
                     return@intercept
 
-                val matchingType = feature.parsers.keys.firstOrNull {
-                    context.response.contentType()?.match(it) == true
-                } ?: return@intercept
-
-                val parser = feature.parsers.getValue(matchingType)
+                val parser = feature.parsers
+                    .filterKeys { context.response.contentType()?.match(it) == true }
+                    .values.firstOrNull() ?: return@intercept
 
                 val parsedBody = parser.parseInput(body.readRemaining().readText(), "${context.request.url}")
                 proceedWith(HttpResponseContainer(info, parsedBody))
