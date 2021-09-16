@@ -69,7 +69,17 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
                     .filterKeys { context.response.contentType()?.match(it) == true }
                     .values.firstOrNull() ?: return@intercept
 
-                val parsedBody = parser.parseInput(body.readRemaining().readText(), "${context.request.url}")
+                val bodyText = body.readRemaining().readText()
+                val baseUrl = context.request.url.toString()
+                
+                val parsedBody = flow {
+                  emit(parser.parseInput(bodyText, baseUrl))
+                }.retry(20) {
+                  // In the case of high concurrency, some system errors may occur, so delay retrying
+                  delay(5)
+                  true
+                }.first()
+                
                 proceedWith(HttpResponseContainer(info, parsedBody))
             }
         }
