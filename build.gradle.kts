@@ -43,7 +43,7 @@ dependencies {
     testImplementation("io.ktor:ktor-client-mock:1.6.3")
 
     api("org.jsoup:jsoup:1.14.2")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 }
 
 tasks.withType<Test>().configureEach {
