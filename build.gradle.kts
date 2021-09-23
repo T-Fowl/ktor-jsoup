@@ -55,19 +55,20 @@ tasks.withType<Test>().all {
 
 tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets.configureEach {
-        externalDocumentationLink {
-            url.set(URL("https://jsoup.org/apidocs/"))
-            packageListUrl.set(URL("https://jsoup.org/apidocs/element-list"))
-        }
+        externalDocumentationLink(
+            url = "https://jsoup.org/apidocs/",
+            packageListUrl = "https://jsoup.org/apidocs/element-list"
+        )
 
-        externalDocumentationLink {
-            /* TODO: Use gradle catalog when dependabot adds support
-                     https://github.com/dependabot/dependabot-core/issues/3471
-                     https://github.com/dependabot/dependabot-core/issues/3121
-            */
-            val ktorVersion = configurations.api.get().dependencies.first { "io.ktor" == it.group }.version
-            url.set(URL("https://api.ktor.io/$ktorVersion/"))
-        }
+        externalDocumentationLink(
+            url = "https://api.ktor.io/ktor-client/ktor-client-core",
+            packageListUrl = "https://api.ktor.io/ktor-client/ktor-client-core/ktor-client-core/package-list"
+        )
+
+        externalDocumentationLink(
+            url = "https://api.ktor.io/ktor-http",
+            packageListUrl = "https://api.ktor.io/ktor-http/ktor-http/package-list"
+        )
     }
 }
 

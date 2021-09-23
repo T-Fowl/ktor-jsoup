@@ -13,13 +13,16 @@ import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 
 /**
- * [HttpClient] feature that deserialises response bodies into Jsoup's [Document]
+ * [HttpClient] feature that parses response bodies into Jsoup [Document]
  * class using a provided [Parser]
  *
- * By default [Html][ContentType.Text.Html] is deserialised using [Parser.htmlParser]
- * and [Xml][ContentType.Text.Xml] is deserialised using [Parser.xmlParser].
+ * By default,
  *
- * Note: It will only deserialised registered content types and for receiving
+ * [ContentType.Text.Html] is parsed using [Parser.htmlParser].
+ *
+ * [ContentType.Text.Xml] & [ContentType.Application.Xml] are parsed using [Parser.xmlParser].
+ *
+ * Note: It will only parse registered content types and for receiving
  * [Document] or superclasses.
  *
  * @property parsers Registered parsers for content types
