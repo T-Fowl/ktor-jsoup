@@ -2,16 +2,13 @@
 
 package com.tfowl.ktor.client.features
 
-import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.features.HttpClientFeature
-import io.ktor.client.statement.HttpResponseContainer
-import io.ktor.client.statement.HttpResponsePipeline
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import io.ktor.util.AttributeKey
-import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.readRemaining
+import io.ktor.client.*
+import io.ktor.client.features.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.util.*
+import io.ktor.utils.io.*
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 
@@ -42,9 +39,9 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
          *  - Xml: [ContentType.Text.Xml] and [ContentType.Application.Xml]
          */
         var parsers = mutableMapOf(
-                ContentType.Text.Html to Parser.htmlParser(),
-                ContentType.Text.Xml to Parser.xmlParser(),
-                ContentType.Application.Xml to Parser.xmlParser()
+            ContentType.Text.Html to Parser.htmlParser(),
+            ContentType.Text.Xml to Parser.xmlParser(),
+            ContentType.Application.Xml to Parser.xmlParser()
         )
     }
 
@@ -55,7 +52,7 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
         override val key: AttributeKey<JsoupFeature> = AttributeKey("Jsoup")
 
         override fun prepare(block: Config.() -> Unit): JsoupFeature =
-                JsoupFeature(Config().apply(block).parsers)
+            JsoupFeature(Config().apply(block).parsers)
 
         override fun install(feature: JsoupFeature, scope: HttpClient) {
             scope.responsePipeline.intercept(HttpResponsePipeline.Transform) { (info, body) ->
@@ -65,14 +62,23 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
                 if (!info.type.java.isAssignableFrom(Document::class.java))
                     return@intercept
 
-                val matchingType = feature.parsers.keys.firstOrNull {
-                    context.response.contentType()?.match(it) == true
+                val responseContentType = context.response.contentType() ?: return@intercept
+
+                val parser = feature.parsers.firstNotNullOfOrNull { (type, parser) ->
+                    parser.takeIf { responseContentType.match(type) }
                 } ?: return@intercept
 
-                val parser = feature.parsers.getValue(matchingType)
+                val bodyContent = body.readRemaining().readText()
 
-                val parsedBody = parser.parseInput(body.readRemaining().readText(), "${context.request.url}")
-                proceedWith(HttpResponseContainer(info, parsedBody))
+                /* We use .response.request.url over .request.url to retrieve
+                   the uri after a potential redirect */
+                val baseUri = context.response.request.url.toString()
+
+                /* Jsoup Parsers internally contain a stateful TreeBuilder,
+                   We need to create a deep copy to avoid issues with
+                   concurrency */
+                val document = Jsoup.parse(bodyContent, baseUri, parser.newInstance())
+                proceedWith(HttpResponseContainer(info, document))
             }
         }
     }
