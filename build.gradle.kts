@@ -18,10 +18,6 @@ plugins {
 }
 apply(plugin = "com.vanniktech.maven.publish")
 
-group = "com.tfowl.ktor"
-version = "1.6.3"
-description = "Ktor client feature for un-marshalling into Jsoup's Document class"
-
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
