@@ -43,7 +43,7 @@ Compatible / Recommended version pairings between `ktor` and `ktor-jsoup`
 | ktor     | ktor-jsoup |
 | -------- | ---------- |
 | `1.5.4+` | `1.5.4`    |
-| `1.6.3+` | `1.6.3`    |
+| `1.6.3+` | `1.6.4`    |
 
 ## Download
 
