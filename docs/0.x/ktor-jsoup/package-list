@@ -1,0 +1,15 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.tfowl.ktor.client.features////PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/index.html
+$dokka.location:com.tfowl.ktor.client.features//Jsoup/io.ktor.client.HttpClientConfig[*]#kotlin.Function1[com.tfowl.ktor.client.features.JsoupFeature.Config,kotlin.Unit]/PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature.Config///PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/-config/index.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature.Config/Config/#/PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/-config/-config.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature.Config/parsers/#/PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/-config/parsers.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature.Feature///PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/-feature/index.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature.Feature/install/#com.tfowl.ktor.client.features.JsoupFeature#io.ktor.client.HttpClient/PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/-feature/install.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature.Feature/key/#/PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/-feature/key.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature.Feature/prepare/#kotlin.Function1[com.tfowl.ktor.client.features.JsoupFeature.Config,kotlin.Unit]/PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/-feature/prepare.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature///PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/index.html
+$dokka.location:com.tfowl.ktor.client.features/JsoupFeature/parsers/#/PointingToDeclaration/ktor-jsoup/com.tfowl.ktor.client.features/-jsoup-feature/parsers.html
+com.tfowl.ktor.client.features
+
