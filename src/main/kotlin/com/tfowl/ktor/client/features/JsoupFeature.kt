@@ -37,9 +37,9 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
         /**
          * [Parsers][Parser] that will be used for each [ContentType]
          *
-         * Default registered are:
-         *  - [Html][ContentType.Text.Html]
-         *  - [Xml][ContentType.Text.Xml]
+         * Defaults:
+         *  - Html: [ContentType.Text.Html]
+         *  - Xml: [ContentType.Text.Xml] and [ContentType.Application.Xml]
          */
         var parsers = mutableMapOf(
                 ContentType.Text.Html to Parser.htmlParser(),
