@@ -124,4 +124,26 @@ class JsoupFeatureTests {
             assertEquals("Sample RSS", document.select("rss>channel>title").text())
         }
     }
+
+    @Test
+    fun `baseUri should be that of the final location`() = runBlocking {
+        val client = HttpClient(MockEngine) {
+            engine {
+                addHandler { request ->
+                    when (request.url.toString()) {
+                        "https://example.com/redirect/to/org" ->
+                            respondRedirect("https://example.org/destination")
+                        "https://example.org/destination" ->
+                            respond(RESOURCES[ContentType.Text.Html]!!, ContentType.Text.Html)
+                        else -> error("Undefined url: ${request.url}")
+                    }
+                }
+            }
+            install(JsoupFeature)
+        }
+
+        val document = client.get<Document>("https://example.com/redirect/to/org")
+
+        assertEquals("https://example.org/destination", document.baseUri())
+    }
 }

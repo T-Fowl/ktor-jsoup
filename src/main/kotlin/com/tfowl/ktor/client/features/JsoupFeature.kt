@@ -72,10 +72,7 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
                 } ?: return@intercept
 
                 val bodyContent = body.readRemaining().readText()
-
-                /* We use .response.request.url over .request.url to retrieve
-                   the uri after a potential redirect */
-                val baseUri = context.response.request.url.toString()
+                val baseUri = context.request.url.toString()
 
                 /* Jsoup Parsers internally contain a stateful TreeBuilder,
                    We need to create a deep copy to avoid issues with
