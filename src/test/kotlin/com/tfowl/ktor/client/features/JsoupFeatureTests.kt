@@ -4,8 +4,11 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.request.*
+import io.ktor.client.utils.*
 import io.ktor.http.*
-import io.ktor.util.cio.*
+import io.ktor.utils.io.*
+import io.ktor.utils.io.core.*
+import io.ktor.utils.io.jvm.javaio.*
 import kotlinx.coroutines.runBlocking
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
@@ -13,35 +16,44 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.io.InputStream
 
+@ExperimentalIoApi
+@Suppress("EXPERIMENTAL_API_USAGE_FUTURE_ERROR")
 class JsoupFeatureTests {
 
-    private data class Resource(val file: String, val contentType: ContentType)
+    private val RESOURCES = mapOf(
+        ContentType.Text.Html to "sample.html",
+        ContentType.Text.Xml to "sample.xml",
+        ContentType.Application.Xml to "sample.xml",
+        ContentType.Application.Rss to "sample.rss"
+    )
 
-    private fun resource(resource: String): InputStream =
-        JsoupFeatureTests::class.java.getResourceAsStream(resource) ?: error("Missing testing file: $resource")
+    private fun resourceAsByteReadChannel(resource: String): ByteReadChannel =
+        JsoupFeatureTests::class.java.getResourceAsStream(resource)?.toByteReadChannel()
+            ?: error("Missing testing file: $resource")
 
-    private val Url.hostWithPortIfRequired: String get() = if (port == protocol.defaultPort) host else hostWithPort
+    private fun urlFor(type: ContentType): Url = URLBuilder("https://example.com/resource").apply {
+        parameters.append("contentType", type)
+    }.build()
 
-    private val Url.fullUrl: String get() = "${protocol.name}://$hostWithPortIfRequired$fullPath"
+    private fun Url.requestedContentType(): ContentType? =
+        parameters["contentType"]?.let { ContentType.parse(it) }
+
+    private fun MockRequestHandleScope.respond(resource: String, contentType: ContentType) =
+        respond(resourceAsByteReadChannel(resource), headers = buildHeaders {
+            append(HttpHeaders.ContentType, contentType)
+        })
 
     private val mockClient = HttpClient(MockEngine) {
         engine {
             addHandler { request ->
-                val resources = mapOf(
-                    "https://example.org/text/html" to Resource("sample.html", ContentType.Text.Html),
-                    "https://example.org/text/xml" to Resource("sample.xml", ContentType.Text.Xml),
-                    "https://example.org/application/xml" to Resource("sample.xml", ContentType.Application.Xml),
-                    "https://example.org/application/rss" to Resource("sample.rss", ContentType.Application.Rss)
-                )
+                val contentType = request.url.requestedContentType()
+                    ?: error("Could not determine requested content type: ${request.url}")
 
-                val resource = resources[request.url.fullUrl] ?: error("Unhandled ${request.url.fullUrl}")
+                val resourceFile = RESOURCES[contentType]
+                    ?: error("No resource registered for $contentType")
 
-                respond(
-                    resource(resource.file).toByteReadChannel(),
-                    headers = headersOf("Content-Type", listOf(resource.contentType.toString()))
-                )
+                respond(resourceFile, contentType)
             }
         }
     }
@@ -53,7 +65,7 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
-            val document = client.get<Document>("https://example.org/text/html")
+            val document = client.get<Document>(urlFor(ContentType.Text.Html))
             assertEquals("Sample Document", document.body().text())
         }
     }
@@ -65,10 +77,10 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
-            val textDocument = client.get<Document>("https://example.org/text/xml")
+            val textDocument = client.get<Document>(urlFor(ContentType.Text.Xml))
             assertEquals("Sample Document", textDocument.text())
 
-            val applicationDocument = client.get<Document>("https://example.org/application/xml")
+            val applicationDocument = client.get<Document>(urlFor(ContentType.Application.Xml))
             assertEquals("Sample Document", applicationDocument.text())
         }
     }
@@ -80,8 +92,8 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
-            val document = client.get<String>("https://example.org/text/html")
-            assertTrue(document.contains("html"))
+            val document = client.get<String>(urlFor(ContentType.Text.Html))
+            assertTrue(document.contains("</html>"))
         }
     }
 
@@ -94,7 +106,7 @@ class JsoupFeatureTests {
 
         assertThrows<NoTransformationFoundException> {
             runBlocking {
-                val document = client.get<Document>("https://example.org/application/rss")
+                val document = client.get<Document>(urlFor(ContentType.Application.Rss))
             }
         }
     }
@@ -108,7 +120,7 @@ class JsoupFeatureTests {
         }
 
         runBlocking {
-            val document = client.get<Document>("https://example.org/application/rss")
+            val document = client.get<Document>(urlFor(ContentType.Application.Rss))
             assertEquals("Sample RSS", document.select("rss>channel>title").text())
         }
     }
