@@ -15,6 +15,6 @@ tasks.withType<KotlinCompile>().all {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("io.ktor:ktor-client-okhttp:1.6.3")
+    implementation("io.ktor:ktor-client-okhttp:1.6.6")
     implementation(project(":")) // com.tfowl.ktor:ktor-jsoup:x.y.z
 }
