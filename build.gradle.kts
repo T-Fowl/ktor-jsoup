@@ -40,7 +40,7 @@ dependencies {
      */
 
     api("io.ktor:ktor-client:1.6.8")
-    testImplementation("io.ktor:ktor-client-mock:1.6.3")
+    testImplementation("io.ktor:ktor-client-mock:1.6.8")
 
     api("org.jsoup:jsoup:1.14.3")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
