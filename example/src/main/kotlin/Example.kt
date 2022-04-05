@@ -7,7 +7,7 @@ import org.jsoup.parser.Parser
 
 suspend fun main() {
     HttpClient() {
-        install(JsoupFeature) {
+        install(JsoupPlugin) {
             parsers[ContentType.Application.Rss] = Parser.xmlParser()
         }
     }.use { client ->
