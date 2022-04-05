@@ -1,3 +1,5 @@
+@file:OptIn(InternalAPI::class)
+
 package com.tfowl.ktor.client.features
 
 import io.ktor.client.*
@@ -6,6 +8,7 @@ import io.ktor.client.engine.mock.*
 import io.ktor.client.request.*
 import io.ktor.client.utils.*
 import io.ktor.http.*
+import io.ktor.util.*
 import io.ktor.utils.io.*
 import io.ktor.utils.io.core.*
 import io.ktor.utils.io.jvm.javaio.*
