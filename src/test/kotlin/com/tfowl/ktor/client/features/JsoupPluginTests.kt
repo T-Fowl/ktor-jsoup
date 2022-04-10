@@ -1,11 +1,10 @@
-@file:OptIn(InternalAPI::class)
-
 package com.tfowl.ktor.client.features
 
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.client.utils.*
 import io.ktor.http.*
 import io.ktor.util.*
@@ -20,9 +19,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-@ExperimentalIoApi
 @Suppress("EXPERIMENTAL_API_USAGE_FUTURE_ERROR")
-class JsoupFeatureTests {
+class JsoupPluginTests {
 
     private val RESOURCES = mapOf(
         ContentType.Text.Html to "sample.html",
@@ -32,7 +30,7 @@ class JsoupFeatureTests {
     )
 
     private fun resourceAsByteReadChannel(resource: String): ByteReadChannel =
-        JsoupFeatureTests::class.java.getResourceAsStream(resource)?.toByteReadChannel()
+        JsoupPluginTests::class.java.getResourceAsStream(resource)?.toByteReadChannel()
             ?: error("Missing testing file: $resource")
 
     private fun urlFor(type: ContentType): Url = URLBuilder("https://example.com/resource").apply {
@@ -64,11 +62,11 @@ class JsoupFeatureTests {
     @Test
     fun `feature should parse html responses by default`() {
         val client = mockClient.config {
-            install(JsoupFeature)
+            install(JsoupPlugin)
         }
 
         runBlocking {
-            val document = client.get<Document>(urlFor(ContentType.Text.Html))
+            val document: Document = client.get(urlFor(ContentType.Text.Html)).body()
             assertEquals("Sample Document", document.body().text())
         }
     }
@@ -76,14 +74,14 @@ class JsoupFeatureTests {
     @Test
     fun `feature should parse xml responses by default`() {
         val client = mockClient.config {
-            install(JsoupFeature)
+            install(JsoupPlugin)
         }
 
         runBlocking {
-            val textDocument = client.get<Document>(urlFor(ContentType.Text.Xml))
+            val textDocument: Document = client.get(urlFor(ContentType.Text.Xml)).body()
             assertEquals("Sample Document", textDocument.text())
 
-            val applicationDocument = client.get<Document>(urlFor(ContentType.Application.Xml))
+            val applicationDocument: Document = client.get(urlFor(ContentType.Application.Xml)).body()
             assertEquals("Sample Document", applicationDocument.text())
         }
     }
@@ -91,11 +89,11 @@ class JsoupFeatureTests {
     @Test
     fun `feature should not parse for non-document types`() {
         val client = mockClient.config {
-            install(JsoupFeature)
+            install(JsoupPlugin)
         }
 
         runBlocking {
-            val document = client.get<String>(urlFor(ContentType.Text.Html))
+            val document = client.get(urlFor(ContentType.Text.Html)).bodyAsText()
             assertTrue(document.contains("</html>"))
         }
     }
@@ -104,12 +102,12 @@ class JsoupFeatureTests {
     @Suppress("UNUSED_VARIABLE")
     fun `feature should not parse unregistered content types`() {
         val client = mockClient.config {
-            install(JsoupFeature)
+            install(JsoupPlugin)
         }
 
         assertThrows<NoTransformationFoundException> {
             runBlocking {
-                val document = client.get<Document>(urlFor(ContentType.Application.Rss))
+                val document: Document = client.get(urlFor(ContentType.Application.Rss)).body()
             }
         }
     }
@@ -117,13 +115,13 @@ class JsoupFeatureTests {
     @Test
     fun `feature should parse additional content types`() {
         val client = mockClient.config {
-            install(JsoupFeature) {
+            install(JsoupPlugin) {
                 parsers[ContentType.Application.Rss] = Parser.xmlParser()
             }
         }
 
         runBlocking {
-            val document = client.get<Document>(urlFor(ContentType.Application.Rss))
+            val document: Document = client.get(urlFor(ContentType.Application.Rss)).body()
             assertEquals("Sample RSS", document.select("rss>channel>title").text())
         }
     }
@@ -142,10 +140,10 @@ class JsoupFeatureTests {
                     }
                 }
             }
-            install(JsoupFeature)
+            install(JsoupPlugin)
         }
 
-        val document = client.get<Document>("https://example.com/redirect/to/org")
+        val document: Document = client.get("https://example.com/redirect/to/org").body()
 
         assertEquals("https://example.org/destination", document.baseUri())
     }

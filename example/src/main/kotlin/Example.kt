@@ -1,5 +1,6 @@
-import com.tfowl.ktor.client.features.JsoupFeature
+import com.tfowl.ktor.client.features.JsoupPlugin
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import org.jsoup.nodes.Document
@@ -7,12 +8,11 @@ import org.jsoup.parser.Parser
 
 suspend fun main() {
     HttpClient() {
-        install(JsoupFeature) {
+        install(JsoupPlugin) {
             parsers[ContentType.Application.Rss] = Parser.xmlParser()
         }
     }.use { client ->
-
-        val feed = client.get<Document>("https://xkcd.com/rss.xml")
+        val feed: Document = client.get("https://xkcd.com/rss.xml").body()
 
         feed.select("rss>channel>item").forEach { item ->
             val title = item.selectFirst("title")?.text()

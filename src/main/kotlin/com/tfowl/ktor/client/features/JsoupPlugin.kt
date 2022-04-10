@@ -3,7 +3,7 @@
 package com.tfowl.ktor.client.features
 
 import io.ktor.client.*
-import io.ktor.client.features.*
+import io.ktor.client.plugins.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.util.*
@@ -13,7 +13,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 
 /**
- * [HttpClient] feature that parses response bodies into Jsoup [Document]
+ * [HttpClient] plugin that parses response bodies into Jsoup [Document]
  * class using a provided [Parser]
  *
  * By default,
@@ -27,10 +27,10 @@ import org.jsoup.parser.Parser
  *
  * @property parsers Registered parsers for content types
  */
-class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
+class JsoupPlugin internal constructor(val parsers: Map<ContentType, Parser>) {
 
     /**
-     * [JsoupFeature] configuration that is used during installation
+     * [JsoupPlugin] configuration that is used during installation
      */
     class Config {
 
@@ -51,13 +51,13 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
     /**
      * Companion object for feature installation
      */
-    companion object Feature : HttpClientFeature<Config, JsoupFeature> {
-        override val key: AttributeKey<JsoupFeature> = AttributeKey("Jsoup")
+    companion object Feature : HttpClientPlugin<Config, JsoupPlugin> {
+        override val key: AttributeKey<JsoupPlugin> = AttributeKey("Jsoup")
 
-        override fun prepare(block: Config.() -> Unit): JsoupFeature =
-            JsoupFeature(Config().apply(block).parsers)
+        override fun prepare(block: Config.() -> Unit): JsoupPlugin =
+            JsoupPlugin(Config().apply(block).parsers)
 
-        override fun install(feature: JsoupFeature, scope: HttpClient) {
+        override fun install(plugin: JsoupPlugin, scope: HttpClient) {
             scope.responsePipeline.intercept(HttpResponsePipeline.Transform) { (info, body) ->
                 if (body !is ByteReadChannel)
                     return@intercept
@@ -67,7 +67,7 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
 
                 val responseContentType = context.response.contentType() ?: return@intercept
 
-                val parser = feature.parsers.firstNotNullOfOrNull { (type, parser) ->
+                val parser = plugin.parsers.firstNotNullOfOrNull { (type, parser) ->
                     parser.takeIf { responseContentType.match(type) }
                 } ?: return@intercept
 
@@ -85,9 +85,9 @@ class JsoupFeature internal constructor(val parsers: Map<ContentType, Parser>) {
 }
 
 /**
- * Install [JsoupFeature]
+ * Install [JsoupPlugin]
  */
 @Suppress("FunctionName")
-fun HttpClientConfig<*>.Jsoup(block: JsoupFeature.Config.() -> Unit = {}) {
-    install(JsoupFeature, block)
+fun HttpClientConfig<*>.Jsoup(block: JsoupPlugin.Config.() -> Unit = {}) {
+    install(JsoupPlugin, block)
 }
