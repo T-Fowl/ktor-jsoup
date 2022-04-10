@@ -4,35 +4,35 @@
 ![Maven Central](https://img.shields.io/maven-central/v/com.tfowl.ktor/ktor-jsoup)
 ![GitHub](https://img.shields.io/github/license/T-Fowl/ktor-jsoup)
 
-The Jsoup feature allows you to handle xml and html content in your ktor application easily using the [Jsoup](https://jsoup.org/) library.
+The Jsoup plugin allows you to handle xml and html content in your ktor application easily using the [Jsoup](https://jsoup.org/) library.
 
-This feature provides a [HttpClientFeature](https://ktor.io/clients/http-client/features.html) similar to that of the built-in [JsonFeature](https://ktor.io/clients/http-client/features/json-feature.html).
+This plugin provides a [HttpClientPlugin](https://ktor.io/docs/http-client-plugins.html) which provides a response transformer for the Jsoup [Document](https://jsoup.org/apidocs/org/jsoup/nodes/Document.html) type.
 
 ## Usage
 
-Install the feature in your `HttpClient`
+Install the plugin in your `HttpClient`
 
 ```kotlin
-install(JsoupFeature)
+install(JsoupPlugin)
 ```
 
 You can optionally configure more content types for Jsoup to parse
 
 ```kotlin
-install(JsoupFeature) {
+install(JsoupPlugin) {
     parsers[ContentType.Application.Rss] = Parser.xmlParser()
 }
 ``` 
 
-Once the Jsoup feature is installed you use it like you would the Json feature, by using `call.receive<Document>()` (and variants). 
+With the plugin installed you can receive Documents by using `response.body<Document>()`.
 
 ```kotlin
 HttpClient(engine) {
-    install(JsoupFeature) {
+    install(JsoupPlugin) {
         parsers[ContentType.Application.Rss] = Parser.xmlParser()
     }
 }.use { client ->
-    val feed = client.get<Document>(url)
+    val feed = client.get(url).body<Document>()
 }
 ```
 
@@ -41,9 +41,10 @@ HttpClient(engine) {
 Compatible / Recommended version pairings between `ktor` and `ktor-jsoup`
 
 | ktor     | ktor-jsoup |
-| -------- | ---------- |
+|----------|------------|
 | `1.5.4+` | `1.5.4`    |
 | `1.6.3+` | `1.6.4`    |
+| `2.0.0+` | `2.0.0`    |
 
 ## Download
 
