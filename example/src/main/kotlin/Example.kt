@@ -1,4 +1,4 @@
-import com.tfowl.ktor.client.features.JsoupPlugin
+import com.tfowl.ktor.client.plugins.JsoupPlugin
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*

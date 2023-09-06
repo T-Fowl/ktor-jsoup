@@ -1,4 +1,4 @@
-package com.tfowl.ktor.client.features
+package com.tfowl.ktor.client.plugins
 
 import io.ktor.client.*
 import io.ktor.client.call.*
