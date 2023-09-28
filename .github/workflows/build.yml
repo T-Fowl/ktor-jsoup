@@ -1,10 +1,10 @@
 name: Build
 
 on:
-  pull_request: { }
+  pull_request:
+    branches: [ master ]
   push:
-    branches:
-      - '**'
+    branches: [ master ]
     tags-ignore:
       - '**'
 
