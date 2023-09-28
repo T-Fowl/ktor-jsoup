@@ -40,11 +40,12 @@ HttpClient(engine) {
 
 Compatible / Recommended version pairings between `ktor` and `ktor-jsoup`
 
-| ktor     | ktor-jsoup |
-|----------|------------|
-| `1.5.4+` | `1.5.4`    |
-| `1.6.3+` | `1.6.4`    |
-| `2.0.0+` | `2.0.0`    |
+| ktor     | ktor-jsoup | notes                                |
+|----------|------------|--------------------------------------|
+| `1.5.4+` | `1.5.4`    |                                      |
+| `1.6.3+` | `1.6.4`    |                                      |
+| `2.0.0+` | `2.0.0`    |                                      |
+| `2.3.0+` | `2.3.0`    | Kotlin `1.8.10` binary compatability |
 
 ## Download
 
@@ -83,7 +84,7 @@ Add a maven dependency to your project:
 ```
 MIT License
 
-Copyright (c) 2020 Thomas Fowler
+Copyright (c) 2023 Thomas Fowler
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
