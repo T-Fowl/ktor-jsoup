@@ -13,8 +13,8 @@ buildscript {
 }
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.6.10"
-    id("org.jetbrains.dokka") version "1.6.10"
+    id("org.jetbrains.kotlin.jvm") version "1.8.10"
+    id("org.jetbrains.dokka") version "1.8.10"
 }
 apply(plugin = "com.vanniktech.maven.publish")
 
@@ -39,8 +39,8 @@ dependencies {
          https://github.com/dependabot/dependabot-core/issues/3121
      */
 
-    api("io.ktor:ktor-client:2.0.0")
-    testImplementation("io.ktor:ktor-client-mock:2.0.0")
+    api("io.ktor:ktor-client:2.3.0")
+    testImplementation("io.ktor:ktor-client-mock:2.3.0")
 
     api("org.jsoup:jsoup:1.14.3")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
