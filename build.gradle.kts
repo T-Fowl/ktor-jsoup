@@ -39,10 +39,10 @@ dependencies {
          https://github.com/dependabot/dependabot-core/issues/3121
      */
 
-    api("io.ktor:ktor-client:2.3.0")
-    testImplementation("io.ktor:ktor-client-mock:2.3.0")
+    api("io.ktor:ktor-client:2.3.4")
+    testImplementation("io.ktor:ktor-client-mock:2.3.4")
 
-    api("org.jsoup:jsoup:1.14.3")
+    api("org.jsoup:jsoup:1.16.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
