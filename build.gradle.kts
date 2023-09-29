@@ -79,9 +79,3 @@ tasks.withType<Jar>().configureEach {
         attributes("Automatic-Module-Name" to project.name)
     }
 }
-
-plugins.withId("com.vanniktech.maven.publish") {
-    configure<com.vanniktech.maven.publish.MavenPublishPluginExtension> {
-        sonatypeHost = com.vanniktech.maven.publish.SonatypeHost.S01
-    }
-}
