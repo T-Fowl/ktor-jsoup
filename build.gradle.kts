@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.25.3")
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
     }
 }
 
