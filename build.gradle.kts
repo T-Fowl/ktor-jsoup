@@ -14,7 +14,7 @@ buildscript {
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.10"
-    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 apply(plugin = "com.vanniktech.maven.publish")
 
