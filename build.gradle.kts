@@ -42,7 +42,7 @@ dependencies {
     api("io.ktor:ktor-client:2.3.4")
     testImplementation("io.ktor:ktor-client-mock:2.3.4")
 
-    api("org.jsoup:jsoup:1.16.1")
+    api("org.jsoup:jsoup:1.18.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
