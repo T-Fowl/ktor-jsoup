@@ -23,8 +23,8 @@ repositories {
 }
 
 dependencies {
-    api(libs.ktor.client)
-    testImplementation(libs.ktor.client.mock)
+    api(ktorLibs.client.core)
+    testImplementation(ktorLibs.client.mock)
 
     api(libs.jsoup)
     testImplementation(libs.junit.jupiter)
