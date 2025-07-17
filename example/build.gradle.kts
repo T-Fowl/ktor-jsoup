@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm")
+    alias(libs.plugins.kotlin.jvm)
 }
 
 repositories {
@@ -7,8 +7,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-
-    implementation("io.ktor:ktor-client-okhttp:2.3.4")
+    implementation(libs.ktor.client.okhttp)
     implementation(project(":")) // com.tfowl.ktor:ktor-jsoup:x.y.z
 }
