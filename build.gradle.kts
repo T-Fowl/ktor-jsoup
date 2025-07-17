@@ -3,20 +3,11 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
-    }
-}
-
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.9.10"
     id("org.jetbrains.dokka") version "1.9.0"
+    id("com.vanniktech.maven.publish") version "0.34.0"
 }
-apply(plugin = "com.vanniktech.maven.publish")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
