@@ -4,12 +4,11 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import org.jsoup.nodes.Document
-import org.jsoup.parser.Parser
 
 suspend fun main() {
     HttpClient() {
         install(JsoupPlugin) {
-            parsers[ContentType.Application.Rss] = Parser.xmlParser()
+            parseAsXml(ContentType.Application.Rss)
         }
     }.use { client ->
         val feed: Document = client.get("https://xkcd.com/rss.xml").body()

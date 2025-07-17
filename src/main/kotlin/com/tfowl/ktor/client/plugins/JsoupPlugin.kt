@@ -3,10 +3,9 @@
 package com.tfowl.ktor.client.plugins
 
 import io.ktor.client.*
-import io.ktor.client.plugins.*
+import io.ktor.client.plugins.api.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.util.*
 import io.ktor.utils.io.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -24,63 +23,53 @@ import org.jsoup.parser.Parser
  *
  * Note: It will only parse registered content types and for receiving
  * [Document] or superclasses.
- *
- * @property parsers Registered parsers for content types
  */
-class JsoupPlugin internal constructor(val parsers: Map<ContentType, Parser>) {
+val JsoupPlugin = createClientPlugin("JsoupPlugin", ::JsoupPluginConfig) {
+    val parsers = pluginConfig.parsers
 
-    /**
-     * [JsoupPlugin] configuration that is used during installation
-     */
-    class Config {
+    transformResponseBody { response, channel, typeInfo ->
+        if (!typeInfo.type.java.isAssignableFrom(Document::class.java))
+            return@transformResponseBody null
 
-        /**
-         * [Parsers][Parser] that will be used for each [ContentType]
-         *
-         * Defaults:
-         *  - Html: [ContentType.Text.Html]
-         *  - Xml: [ContentType.Text.Xml] and [ContentType.Application.Xml]
-         */
-        var parsers = mutableMapOf(
-            ContentType.Text.Html to Parser.htmlParser(),
-            ContentType.Text.Xml to Parser.xmlParser(),
-            ContentType.Application.Xml to Parser.xmlParser()
-        )
+        val responseContentType = response.contentType() ?: return@transformResponseBody null
+
+        val parser = parsers.firstNotNullOfOrNull { (type, parser) ->
+            parser.takeIf { responseContentType.match(type) }
+        } ?: return@transformResponseBody null
+
+        val bodyContent = channel.readRemaining().readText()
+        val baseUri = response.request.url.toString()
+
+        /* Jsoup Parsers internally contain a stateful TreeBuilder,
+           We need to create a deep copy to avoid issues with
+           concurrency */
+        val document = Jsoup.parse(bodyContent, baseUri, parser.newInstance())
+
+        return@transformResponseBody document
+    }
+}
+
+/**
+ * [JsoupPlugin] configuration that is used during installation
+ */
+class JsoupPluginConfig {
+
+    internal val parsers = mutableMapOf(
+        ContentType.Text.Html to Parser.htmlParser(),
+        ContentType.Text.Xml to Parser.xmlParser(),
+        ContentType.Application.Xml to Parser.xmlParser()
+    )
+
+    fun parseAsHtml(contentType: ContentType) {
+        parsers[contentType] = Parser.htmlParser()
     }
 
-    /**
-     * Companion object for plugin installation
-     */
-    companion object Plugin : HttpClientPlugin<Config, JsoupPlugin> {
-        override val key: AttributeKey<JsoupPlugin> = AttributeKey("Jsoup")
+    fun parseAsXml(contentType: ContentType) {
+        parsers[contentType] = Parser.xmlParser()
+    }
 
-        override fun prepare(block: Config.() -> Unit): JsoupPlugin =
-            JsoupPlugin(Config().apply(block).parsers)
-
-        override fun install(plugin: JsoupPlugin, scope: HttpClient) {
-            scope.responsePipeline.intercept(HttpResponsePipeline.Transform) { (info, body) ->
-                if (body !is ByteReadChannel)
-                    return@intercept
-
-                if (!info.type.java.isAssignableFrom(Document::class.java))
-                    return@intercept
-
-                val responseContentType = context.response.contentType() ?: return@intercept
-
-                val parser = plugin.parsers.firstNotNullOfOrNull { (type, parser) ->
-                    parser.takeIf { responseContentType.match(type) }
-                } ?: return@intercept
-
-                val bodyContent = body.readRemaining().readText()
-                val baseUri = context.request.url.toString()
-
-                /* Jsoup Parsers internally contain a stateful TreeBuilder,
-                   We need to create a deep copy to avoid issues with
-                   concurrency */
-                val document = Jsoup.parse(bodyContent, baseUri, parser.newInstance())
-                proceedWith(HttpResponseContainer(info, document))
-            }
-        }
+    fun parseAs(contentType: ContentType, parser: Parser) {
+        parsers[contentType] = parser
     }
 }
 
@@ -88,6 +77,6 @@ class JsoupPlugin internal constructor(val parsers: Map<ContentType, Parser>) {
  * Install [JsoupPlugin]
  */
 @Suppress("FunctionName")
-fun HttpClientConfig<*>.Jsoup(block: JsoupPlugin.Config.() -> Unit = {}) {
+fun HttpClientConfig<*>.Jsoup(block: JsoupPluginConfig.() -> Unit = {}) {
     install(JsoupPlugin, block)
 }
