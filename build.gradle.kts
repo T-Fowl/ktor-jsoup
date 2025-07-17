@@ -4,9 +4,9 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.1.21"
-    id("org.jetbrains.dokka") version "2.0.0"
-    id("com.vanniktech.maven.publish") version "0.34.0"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.vanniktech.publish)
 }
 
 java {
@@ -23,18 +23,11 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    /*
-        TODO: Use gradle catalog when dependabot supports it:
-         https://github.com/dependabot/dependabot-core/issues/3471
-         https://github.com/dependabot/dependabot-core/issues/3121
-     */
+    api(libs.ktor.client)
+    testImplementation(libs.ktor.client.mock)
 
-    api("io.ktor:ktor-client:2.3.4")
-    testImplementation("io.ktor:ktor-client-mock:2.3.4")
-
-    api("org.jsoup:jsoup:1.16.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    api(libs.jsoup)
+    testImplementation(libs.junit.jupiter)
 }
 
 tasks.withType<Test>().configureEach {
