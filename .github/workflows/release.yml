@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         java-version:
-          - 8
+          - 21
 
     steps:
       - name: Checkout
