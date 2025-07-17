@@ -2,7 +2,7 @@
 kotlin = "2.1.21"
 dokka = "2.0.0"
 vanniktech = "0.34.0"
-jsoup = "1.16.1"
+jsoup = "1.21.1"
 junit = "5.8.2"
 
 [libraries]
