@@ -4,8 +4,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.9.10"
-    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.kotlin.jvm") version "2.1.21"
+    id("org.jetbrains.dokka") version "2.0.0"
     id("com.vanniktech.maven.publish") version "0.34.0"
 }
 
